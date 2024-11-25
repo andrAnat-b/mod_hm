@@ -35,7 +35,7 @@ last_two([_|T]) ->
 %3
 k_element([X | _], 1) ->
     X;
-k_element([_ | T], K) when K > 1 ->
+k_element([_ | T], K) when K > 1 -> %% перепишіть без використання охоронних виразів
     k_element(T, K-1).
 
 %4
@@ -69,9 +69,9 @@ reverse_p([H | T], Acum) ->
 flatten([]) ->
     [];
 flatten([H | T]) when is_list(H) ->
-    flatten(H) ++ flatten(T);
+    flatten(H) ++ flatten(T);  %% перепишіть із використанням хвостової рекурсії
 flatten([H | T]) ->
-    [H | flatten(T)].
+    [H | flatten(T)]. %% перепишіть із використанням хвостової рекурсії
 
 %8
 eliminate([]) ->
@@ -81,7 +81,7 @@ eliminate([X]) ->
 eliminate([X, X | T]) ->
     eliminate([X | T]);
 eliminate([X, Y | T]) ->
-    [X | eliminate([Y | T])].
+    [X | eliminate([Y | T])]. %% перепишіть із використанням хвостової рекурсії
 
 %9
 pack([]) ->
@@ -89,9 +89,9 @@ pack([]) ->
 pack([X]) ->
     [[X]];
 pack([X, X | T]) ->
-    [[X | hd(pack([X | T]))] | tl(pack([X | T]))];
+    [[X | hd(pack([X | T]))] | tl(pack([X | T]))]; %% перепишіть із використанням хвостової рекурсії
 pack([X, Y | T]) ->
-    [[X] | pack([Y | T])].
+    [[X] | pack([Y | T])]. %% перепишіть із використанням хвостової рекурсії
 
 
 %10
@@ -101,7 +101,8 @@ encode(List) ->
 encode_packed([]) ->
     [];
 encode_packed([[H | T] | Rest]) ->
-    [[length([H | T]), H] | encode_packed(Rest)].
+    [[length([H | T]), H] | encode_packed(Rest)]. %% перепишіть із використанням хвостової рекурсії
+
 
 %11
 encode_mod(List) ->
@@ -111,20 +112,23 @@ encode_mod(List) ->
 encode_packed_modified([]) ->
     [];
 encode_packed_modified([[H | T] | Rest]) ->
-    case element_qty([H | T]) of
+    case element_qty([H | T]) of %% перепишіть без використання сase виразу
+
         1 -> 
-            [H | encode_packed_modified(Rest)];
+            [H | encode_packed_modified(Rest)]; %% перепишіть із використанням хвостової рекурсії
+
         N -> 
-            [[N, H] | encode_packed_modified(Rest)]
+            [[N, H] | encode_packed_modified(Rest)] %% перепишіть із використанням хвостової рекурсії
+
     end.
 
 %12
 decode([]) ->
     [];
 decode([[N, E] | T]) ->
-    lists:duplicate(N, E) ++ decode(T); 
+    lists:duplicate(N, E) ++ decode(T); %% перепишіть із використанням хвостової рекурсії
 decode([E | T]) ->
-    [E | decode(T)]. 
+    [E | decode(T)]. %% перепишіть із використанням хвостової рекурсії
 
 %13
 encode_direct([]) -> 
@@ -142,7 +146,7 @@ encode_direct([Current | Rest], Current, Count) ->
     encode_direct(Rest, Current, Count + 1);
 
 encode_direct([Next | Rest], Current, Count) ->
-    finalize(Current, Count) ++ encode_direct(Rest, Next, 1).
+    finalize(Current, Count) ++ encode_direct(Rest, Next, 1). %% перепишіть із використанням хвостової рекурсії
 
 
 finalize(Current, 1) -> 
@@ -154,15 +158,15 @@ finalize(Current, Count) ->
 duplicate([]) ->
     [];
 duplicate([X | T]) ->
-    [X, X | duplicate(T)].
+    [X, X | duplicate(T)]. %% перепишіть із використанням хвостової рекурсії
 
 %15
 replicate([], _) ->
     [];
 replicate([X | T], N) ->
-    repl(X, N) ++ replicate(T, N).
+    repl(X, N) ++ replicate(T, N). %% перепишіть із використанням хвостової рекурсії
 repl(_, 0) ->
     [];
 repl(X, N) ->
-    [X | repl(X, N - 1)].
+    [X | repl(X, N - 1)]. %% перепишіть із використанням хвостової рекурсії
 
